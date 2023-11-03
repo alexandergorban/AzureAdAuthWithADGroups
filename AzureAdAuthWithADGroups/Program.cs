@@ -9,7 +9,11 @@ namespace AzureAdAuthWithADGroups
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+                .AddInMemoryTokenCaches();
 
             // Add services to the container.
 
